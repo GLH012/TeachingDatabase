@@ -1,36 +1,16 @@
-SET FOREIGN_KEY_CHECKS = 0;
-
 DROP TABLE IF EXISTS staff;
-DROP TABLE IF EXISTS Qualification;
-DROP TABLE IF EXISTS Address; 
-DROP TABLE IF EXISTS AQFLevels;  
-DROP TABLE IF EXISTS Organisation; 
-DROP TABLE IF EXISTS Roles;
-DROP TABLE IF EXISTS Courses;
-DROP TABLE IF EXISTS Work;  
-DROP TABLE IF EXISTS Relevant_Teaching_Experience;
-DROP TABLE IF EXISTS Relevant_Employment_Experience;
-DROP TABLE IF EXISTS Journal;
-DROP TABLE IF EXISTS Publications;
-DROP TABLE IF EXISTS Admin_Manager; 
-DROP TABLE IF EXISTS Approvals;
-DROP TABLE IF EXISTS Documents;  
-DROP TABLE IF EXISTS Reviews;
-DROP TABLE IF EXISTS Reviewer_Notes;  
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-CREATE TABLE IF NOT EXISTS Staff (
+CREATE TABLE Staff (
   StaffID    int(10) NOT NULL AUTO_INCREMENT, 
   Title      varchar(5) NOT NULL, 
   First_Name varchar(128) NOT NULL, 
   Last_Name  varchar(128) NOT NULL, 
   EmailId    varchar(128) NOT NULL UNIQUE, 
-  Address_ID int(10), 
-  PhoneNo    varchar(22) NOT NULL UNIQUE, 
+  Address_ID int(10) NOT NULL, 
+  PhoneNo    numeric(12, 0) NOT NULL UNIQUE, 
   PRIMARY KEY (StaffID));
-
-CREATE TABLE IF NOT EXISTS Qualification (
+  
+DROP TABLE IF EXISTS Qualification;
+CREATE TABLE Qualification (
   NameOfQualification varchar(255) NOT NULL, 
   StaffID             int(10) NOT NULL, 
   AQFLevel_ID         int(10) NOT NULL, 
@@ -41,8 +21,9 @@ CREATE TABLE IF NOT EXISTS Qualification (
   Awarded_Year        date, 
   PRIMARY KEY (NameOfQualification));
 
-CREATE TABLE IF NOT EXISTS Address (
-  Address_ID      int(10) AUTO_INCREMENT, 
+DROP TABLE IF EXISTS Address;  
+CREATE TABLE Address (
+  Address_ID      int(10) NOT NULL AUTO_INCREMENT, 
   Building_Name   varchar(128), 
   Building_Number int(10), 
   Street_Name     varchar(128), 
@@ -51,44 +32,51 @@ CREATE TABLE IF NOT EXISTS Address (
   ZIPCode         int(10), 
   Country         varchar(128), 
   PRIMARY KEY (Address_ID));
- 
-CREATE TABLE IF NOT EXISTS AQFLevels (
+  
+DROP TABLE IF EXISTS AQFLevels;  
+CREATE TABLE AQFLevels (
   AQFLevel_ID                           int(10) NOT NULL AUTO_INCREMENT, 
   Qualified_Degree                      varchar(255) NOT NULL,
   AQFLevel                              varchar(20) NOT NULL,  
   Qualification_Level_Required_To_Teach varchar(20) NOT NULL,  
   PRIMARY KEY (AQFLevel_ID));
 
-CREATE TABLE IF NOT EXISTS Organisation (
+DROP TABLE IF EXISTS Organisation; 
+CREATE TABLE Organisation (
   Organisation_ID int(10) NOT NULL AUTO_INCREMENT, 
   Name            varchar(255) NOT NULL UNIQUE, 
   Address_ID      int(10) NOT NULL, 
   PRIMARY KEY (Organisation_ID));
 
-CREATE TABLE IF NOT EXISTS Roles (
+DROP TABLE IF EXISTS Roles;
+CREATE TABLE Roles (
   Role_ID   int(10) NOT NULL AUTO_INCREMENT, 
   Role_Name varchar(125) NOT NULL UNIQUE, 
   PRIMARY KEY (Role_ID));
 
-CREATE TABLE IF NOT EXISTS Courses (
+DROP TABLE IF EXISTS Courses;
+CREATE TABLE Courses (
   Course_ID   int(10) NOT NULL AUTO_INCREMENT, 
   Course_Name varchar(128) NOT NULL, 
   PRIMARY KEY (Course_ID));
 
-CREATE TABLE IF NOT EXISTS Work (
+DROP TABLE IF EXISTS Work;  
+CREATE TABLE Work (
   Work_ID     int(10) NOT NULL AUTO_INCREMENT, 
   Work_Status varchar(20) NOT NULL UNIQUE, 
   PRIMARY KEY (Work_ID));
-
-CREATE TABLE IF NOT EXISTS Relevant_Teaching_Experience (
+  
+DROP TABLE IF EXISTS Relevant_Teaching_Experience;  
+CREATE TABLE Relevant_Teaching_Experience (
   StaffID         int(10) NOT NULL, 
   Joining_Date    date, 
   Finish_Date     date NOT NULL, 
   Course_ID       int(10) NOT NULL, 
   Organisation_ID int(10) NOT NULL, 
   Role_ID         int(10) NOT NULL);
-
-CREATE TABLE IF NOT EXISTS Relevant_Employment_Experience (
+  
+DROP TABLE IF EXISTS Relevant_Employment_Experience;
+CREATE TABLE Relevant_Employment_Experience (
   StaffID         int(10) NOT NULL, 
   Joining_Date    date NOT NULL, 
   Finish_Date     date NOT NULL, 
@@ -96,12 +84,14 @@ CREATE TABLE IF NOT EXISTS Relevant_Employment_Experience (
   Work_ID         int(10) NOT NULL, 
   Role_ID         int(10) NOT NULL);
 
-CREATE TABLE IF NOT EXISTS Journal (
+DROP TABLE IF EXISTS Journal;
+CREATE TABLE Journal (
   Journal_ID     int(11) NOT NULL AUTO_INCREMENT, 
   Journal_Volume varchar(255), 
   PRIMARY KEY (Journal_ID));
 
-CREATE TABLE IF NOT EXISTS Publications (
+DROP TABLE IF EXISTS Publications;  
+CREATE TABLE Publications (
   Publication_ID        int(10) NOT NULL AUTO_INCREMENT, 
   Year_Of_Publication   int(10) NOT NULL, 
   Title_Of_Publication  varchar(128) NOT NULL, 
@@ -112,13 +102,15 @@ CREATE TABLE IF NOT EXISTS Publications (
   StaffID               int(10) NOT NULL, 
   Broad_Field_Education varchar(10) NOT NULL, 
   PRIMARY KEY (Publication_ID));
-
-CREATE TABLE IF NOT EXISTS Admin_Manager (
+  
+DROP TABLE IF EXISTS Admin_Manager;  
+CREATE TABLE Admin_Manager (
   Manager_Id int(10) NOT NULL AUTO_INCREMENT, 
   StaffID    int(10) NOT NULL, 
   PRIMARY KEY (Manager_Id));
 
-CREATE TABLE IF NOT EXISTS Approvals (
+DROP TABLE IF EXISTS Approvals;
+CREATE TABLE Approvals (
   Approval_Id       int(10) NOT NULL AUTO_INCREMENT, 
   Next_Revw_Date       date, 
   Approval_Date     date NOT NULL, 
@@ -129,15 +121,17 @@ CREATE TABLE IF NOT EXISTS Approvals (
   CourseID          int(10) NOT NULL, 
   PRIMARY KEY (Approval_Id));
 
-CREATE TABLE IF NOT EXISTS Documents (
+DROP TABLE IF EXISTS Documents;  
+CREATE TABLE Documents (
   Doc_ID           int(10) NOT NULL AUTO_INCREMENT, 
   Doc_Name         varchar(120) NOT NULL, 
   Doc_Sighted_Date date NOT NULL, 
   StaffID          int(10) NOT NULL, 
   Admin_Mgr_ID     int(10) NOT NULL, 
   PRIMARY KEY (Doc_ID));
-
-CREATE TABLE IF NOT EXISTS Reviews (
+  
+DROP TABLE IF EXISTS Reviews;
+CREATE TABLE Reviews (
   Review_ID    int(10) NOT NULL AUTO_INCREMENT, 
   Review_Date  date NOT NULL, 
   Admin_mgr_ID int(10) NOT NULL, 
@@ -145,14 +139,16 @@ CREATE TABLE IF NOT EXISTS Reviews (
   StaffID      int(10) NOT NULL, 
   PRIMARY KEY (Review_ID));
 
-CREATE TABLE IF NOT EXISTS Reviewer_Notes (
+DROP TABLE IF EXISTS Reviewer_Notes;  
+CREATE TABLE Reviewer_Notes (
   ID           int(10) NOT NULL AUTO_INCREMENT, 
   Content      varchar(255) NOT NULL, 
   Admin_Mgr_ID int(10) NOT NULL, 
   Review_ID    int(10) NOT NULL, 
   PRIMARY KEY (ID));
 
-/* INSERT RECORDS into staff Table*/
+
+ /* INSERT RECORDS into staff Table*/
  insert into staff(Title, First_Name, Last_Name, EmailId, Address_ID,PhoneNo) values('Mr','Thiru','Paleru','rao.paleti@gmail.com',1,9701785385);
  insert into staff(Title, First_Name, Last_Name, EmailId, Address_ID,PhoneNo) values('Mr','Venki','ch','venki.ch@gmail.com',2,469710653);
  insert into staff(Title, First_Name, Last_Name, EmailId, Address_ID,PhoneNo) values('Miss','lalitha','vadlamudi','lalli.vadlamudi@gmail.com',3,9052385385);
@@ -253,7 +249,7 @@ INSERT INTO  Reviews ( Review_Date,Admin_mgr_ID,OutCome, StaffID)
 INSERT INTO Reviewer_Notes (Content,Admin_Mgr_ID, Review_ID)
                       VALUES ('The coordinator has so far been excellent at their job.', 2, 1),
 					         ('The instructor continues to be late to class despite various warnings',2,2),
-							 ('The Teaching assistant is terminated.',1,3);
+							 ('The Teaching assistant is terminated.',1,3),;
 
 
   
@@ -325,4 +321,5 @@ SELECT aqflevels.AQFLevel, COUNT(qualification.AQFLevel_ID) AS 'total staff'
 FROM aqflevels 
 INNER JOIN qualification ON aqflevels.AQFLevel_ID = qualification.AQFLevel_ID
 GROUP BY aqflevels.AQFLevel;
+
 
