@@ -3,6 +3,7 @@ from bottle import html_escape, route, run, request, get, post, response, templa
 # from xml.dom import minidom, Node
 from classDb import DatabaseConnect as dbcon
 
+<<<<<<< Updated upstream
 
 @route('/home')
 def home():
@@ -15,6 +16,10 @@ def Teaching_Staff_Portal():
 
 
 @route('/login', method="get")
+=======
+# Initial Route, Landing users into the home login page.
+@route('/', method="get")
+>>>>>>> Stashed changes
 def login():
  return template('./templates/Admin_Portal')
 
@@ -47,10 +52,6 @@ def do_aqfrecords():
             aqf_data = dcurs.fetchall()
         dcurs.close()
      return template('./templates/aqfrecords', aqf_list=aqf_data)
-
-def new_func():
-    return total
-
 
 @route('/staff')
 def get_first_page():
